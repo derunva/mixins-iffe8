@@ -1,0 +1,100 @@
+doctype html
+html(lang="uk")
+  include partials/head
+  body
+    include partials/header
+    .wrapper
+      -
+        function sayHi(name){
+          return 'Hi '+name+' !!!'
+        }
+        sayHi()
+        var people = [
+          'Vika',
+          'Brice',
+          'Misha',
+          'Yegor',
+          'Oleg',
+          'Yegor',
+          'Yuriy'
+        ]
+      mixin renderBook(book)
+        .book
+          .book__poster 
+            img(src=book.poster alt="")
+          .book__title
+            |#{book.title}
+          .book__part
+            |#{book.part}
+          .book__author
+            |#{book.author}
+          .book__tags
+            each tag in book.tags
+              a(href="#")=tag
+      -
+        function renderBook(book){
+          var tags = "";
+          [].forEach.call(book.tags, function(item){
+            tags += "<a href='#'>"+item+"</a>"
+          })
+          var bookLayout = `
+            <div class="book">
+              <div class="book__poster">
+                <img src="`+book.poster+`" alt="">
+              </div>
+              <div class="book__title">`+book.title+`</div>
+              <div class="book__part">`+book.part+`</div>
+              <div class="book__author">`+book.author+`</div>
+              <div class="book__tags">
+                `+tags+`
+              </div>
+            </div>
+          `
+          return bookLayout;
+        }
+        var dune = {
+          poster : "img/dune.png",
+          title : "Dune",
+          part : "1",
+          author: "Frank Gebert",
+          tags : ["asdas", "dsadas", "dasdsadsa"]
+        }
+      div!=renderBook(dune)
+      each person in people
+        p=sayHi(person)
+      .book
+        .book__poster
+        .book__title=dune.title
+        .book__part=dune.part
+        .book__author=dune.author
+        .book__tags
+      h2 another books
+      -
+         var books = [
+           {
+              poster : "img/dune.png",
+              title : "Dune",
+              part : "2 Childrens of Dune",
+              author: "Frank Gebert",
+              tags : ["asdas", "dsadas", "dasdsadsa"]
+            },
+            {
+              poster : "img/dune.png",
+              title : "Dune",
+              part : "3 Prophet of Dune",
+              author: "Frank Gebert",
+              tags : ["asdas", "dsadas", "dasdsadsa"]
+            },
+            {
+              poster : "img/dune.png",
+              title : "Dune",
+              part : "5 Imperor of Dune",
+              author: "Frank Gebert",
+              tags : ["asdas", "dsadas", "dasdsadsa"]
+            }
+         ]
+      each book in books
+        |!{renderBook(book)}
+      each book in books
+        +renderBook(book)
+    include partials/footer

@@ -1,0 +1,7 @@
+*
+!app/
+!app/*
+!app/**/*
+!.gitignore
+!*.json
+!gulpfile.js
